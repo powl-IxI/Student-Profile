@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<!-- IGNORE THE NAMES 🙏 -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -189,13 +189,11 @@
         const bg = document.getElementById("overlayBg");
         const snowContainer = document.getElementById("snow");
 
-        // Unlock audio
         document.addEventListener("click", () => {
-            bgMusic.volume = 0.4; // lower music so SFX is clear
+            bgMusic.volume = 0.4;
             bgMusic.play().catch(() => { });
         }, { once: true });
 
-        // Hover cooldown
         let hoverCooldown = false;
 
         overlays.forEach(el => {
@@ -247,7 +245,6 @@
             }
         }
 
-        // Snow
         const flakes = [];
         let wind = 0;
         let windTarget = 0;
