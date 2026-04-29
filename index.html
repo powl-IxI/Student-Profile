@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile</title>
+
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+        }
+
+        .background {
+            width: 100%;
+            display: block;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 48%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 450px;
+            z-index: 2;
+            cursor: pointer;
+            transition: .2s;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        .overlay:hover {
+            transform: translate(-50%, -53%);
+        }
+
+        .overlay:active {
+            transform: translate(-50%, -40%) scale(.95);
+        }
+
+        #hero0 {
+            width: 34%;
+            left: 773px;
+        }
+
+        #hero {
+            top: 140px;
+            left: 270px;
+        }
+
+        #hero2 {
+            top: 356px;
+            left: 265px;
+        }
+
+        #hero4 {
+            top: 571px;
+            left: 264px;
+            width: 28.4%;
+        }
+
+        #hero5 {
+            top: 152px;
+            left: 1270px;
+            width: 26.7%;
+        }
+
+        #hero6 {
+            top: 483px;
+            left: 1273px;
+            width: 26%;
+        }
+
+        .popup {
+            position: fixed;
+            transform: translate(-50%, -50%) scale(0);
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            border-radius: 20px;
+            padding: 25px;
+            z-index: 9999;
+            transition: .25s;
+            cursor: pointer;
+        }
+
+        .popup.open {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        #overlayBg {
+            position: fixed;
+            inset: 0;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 9998;
+        }
+
+        #overlayBg.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .8);
+            pointer-events: none;
+            animation: floatUp 1.5s forwards;
+            z-index: 10000;
+        }
+
+        @keyframes floatUp {
+            to {
+                transform: translateY(-150px) scale(.5);
+                opacity: 0;
+            }
+        }
+
+        #snow {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 10001;
+        }
+
+        .snowflake {
+            position: absolute;
+            top: 0;
+            background: white;
+            border-radius: 50%;
+            opacity: .9;
+            will-change: transform;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <img src="IMAGES/BACKGROUNDMAIN.png" class="background">
+
+        <img src="IMAGES/REALALAL-Photoroom.png" class="overlay" id="hero0">
+        <img src="IMAGES/ABOUTME1-Photoroom.png" class="overlay" data-popup="1" id="hero">
+        <img src="IMAGES/ABOUT 21212-Photoroom.png" class="overlay" data-popup="2" id="hero2">
+        <img src="IMAGES/HERO33333-Photoroom.png" class="overlay" data-popup="3" id="hero4">
+        <img src="IMAGES/ABOUT MElasttwo-Photoroom.png" class="overlay" data-popup="4" id="hero5">
+        <img src="IMAGES/pleassenig-Photoroom.png" class="overlay" data-popup="5" id="hero6">
+    </div>
+
+    <div id="overlayBg"></div>
+
+    <div class="popup" id="p1"
+        style="top:18.8%;left:16.8%;width:404px;height:200px;background-image:url('IMAGES/whatdahelly2-Photoroom.png')">
+    </div>
+    <div class="popup" id="p2"
+        style="top:64.99%;left:17.2%;width:300%;height:412px;background-image:url('IMAGES/WHATDAHELLY444444-Photoroom.png')">
+    </div>
+    <div class="popup" id="p3"
+        style="top:78.6%;left:18.3%;width:270%;height:191px;background-image:url('IMAGES/whatdahelly55-Photoroom.png')">
+    </div>
+    <div class="popup" id="p4"
+        style="top:23.53%;left:84.0%;width:400px;height:250px;background-image:url('IMAGES/whatdahelly66-Photoroom.png')">
+    </div>
+    <div class="popup" id="p5"
+        style="top:64.3%;left:83.5%;width:400px;height:450px;background-image:url('IMAGES/whatdahelly7-Photoroom.png')">
+    </div>
+
+    <div id="snow"></div>
+
+    <audio id="bgMusic" src="IMAGES/0428.MP3" loop></audio>
+
+    <script>
+        const bgMusic = document.getElementById("bgMusic");
+
+        function playSound(src, volume = 1) {
+            const sound = new Audio(src);
+            sound.volume = volume;
+            sound.play().catch(() => { });
+        }
+
+        const overlays = document.querySelectorAll(".overlay");
+        const popups = document.querySelectorAll(".popup");
+        const bg = document.getElementById("overlayBg");
+        const snowContainer = document.getElementById("snow");
+
+        // Unlock audio
+        document.addEventListener("click", () => {
+            bgMusic.volume = 0.4; // lower music so SFX is clear
+            bgMusic.play().catch(() => { });
+        }, { once: true });
+
+        // Hover cooldown
+        let hoverCooldown = false;
+
+        overlays.forEach(el => {
+
+            el.addEventListener("mouseenter", () => {
+                if (hoverCooldown) return;
+
+                hoverCooldown = true;
+                playSound("tae/ayo123.mp3", 0.8);
+
+                setTimeout(() => hoverCooldown = false, 120);
+            });
+
+            el.addEventListener("click", e => {
+                playSound("tae/0426(2).mp3", 1);
+
+                spawnBubbles(e.pageX, e.pageY);
+
+                const id = el.dataset.popup;
+                if (!id) return;
+
+                closeAll();
+                document.getElementById("p" + id).classList.add("open");
+                bg.classList.add("show");
+            });
+
+        });
+
+        function closeAll() {
+            popups.forEach(p => p.classList.remove("open"));
+            bg.classList.remove("show");
+        }
+
+        bg.onclick = closeAll;
+        popups.forEach(p => p.onclick = closeAll);
+
+        function spawnBubbles(x, y) {
+            for (let i = 0; i < 12; i++) {
+                const b = document.createElement("div");
+                b.className = "bubble";
+
+                const size = Math.random() * 15 + 5;
+                b.style.width = b.style.height = size + "px";
+                b.style.left = x + (Math.random() * 40 - 20) + "px";
+                b.style.top = y + "px";
+
+                document.body.appendChild(b);
+                setTimeout(() => b.remove(), 1500);
+            }
+        }
+
+        // Snow
+        const flakes = [];
+        let wind = 0;
+        let windTarget = 0;
+
+        function spawnSnow() {
+            const el = document.createElement("div");
+            el.className = "snowflake";
+
+            const size = Math.random() * 5 + 2;
+            el.style.width = el.style.height = size + "px";
+
+            const flake = {
+                el,
+                x: Math.random() * window.innerWidth,
+                y: -10,
+                vy: Math.random() * 1 + 0.5,
+                rot: Math.random() * 360
+            };
+
+            snowContainer.appendChild(el);
+            flakes.push(flake);
+        }
+
+        function animateSnow() {
+            windTarget += (Math.random() - 0.5) * 0.02;
+            wind += (windTarget - wind) * 0.01;
+
+            flakes.forEach(f => {
+                f.vy += 0.002;
+                f.x += wind + Math.sin(f.y * 0.01) * 0.3;
+                f.y += f.vy;
+                f.rot += 0.5;
+
+                f.el.style.transform =
+                    `translate(${f.x}px, ${f.y}px) rotate(${f.rot}deg)`;
+
+                if (f.y > window.innerHeight) {
+                    f.y = -10;
+                    f.x = Math.random() * window.innerWidth;
+                    f.vy = Math.random() * 1 + 0.5;
+                }
+            });
+
+            requestAnimationFrame(animateSnow);
+        }
+
+        setInterval(() => {
+            if (flakes.length < 250) spawnSnow();
+        }, 30);
+
+        animateSnow();
+    </script>
+
+</body>
+
+</html>
